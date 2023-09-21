@@ -19,6 +19,6 @@
 * *4 hours* Read the project guidance notes and project marking scheme
 * *0.5 hour* Watched project introduction video
 
-## 21 Sep 2023
+### 21 Sep 2023
 
 * *1 hour* Downloaded project template off moodle and set up github repository
