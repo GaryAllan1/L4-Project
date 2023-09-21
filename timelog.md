@@ -1,9 +1,9 @@
 # Timelog
 
-* PROJECT NAME
-* YOUR NAME
-* STUDENT_ID
-* SUPERVISOR NAME
+* Investigating the utilisation of AI tools such as chatGPT in students
+* Gary Allan
+* 2542931
+* Mireilla Bikanga Ada
 
 ## Guidance
 
@@ -14,13 +14,11 @@
 
 ## Week 1
 
-### 19 Oct 2019
+### 20 Sep 2023
 
-* *4 hours* Read the project guidance notes
-* *0.5 hour* Created GitLab repository and cloned the cookiecutter for the projects
-* *1 hour* Modified dissertation template, compiled  
+* *4 hours* Read the project guidance notes and project marking scheme
+* *0.5 hour* Watched project introduction video
 
-## 20 Oct 2019
+## 21 Sep 2023
 
-* *1 hour* meeting with supervisor
-* *2 hours* writing initial version of test harness
+* *1 hour* Downloaded project template off moodle and set up github repository
