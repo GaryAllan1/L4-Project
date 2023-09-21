@@ -22,3 +22,4 @@
 ### 21 Sep 2023
 
 * *1 hour* Downloaded project template off moodle and set up github repository
+* *2 hours* Guidance and Information session
