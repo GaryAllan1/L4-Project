@@ -23,3 +23,4 @@
 
 * *1 hour* Downloaded project template off moodle and set up github repository
 * *2 hours* Guidance and Information session
+* *1.5 hours* Found some relevant research related to uses of AI
