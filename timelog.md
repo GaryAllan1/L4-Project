@@ -24,3 +24,9 @@
 * *1 hour* Downloaded project template off moodle and set up github repository
 * *2 hours* Guidance and Information session
 * *1.5 hours* Found some relevant research related to uses of AI
+
+## Week 2
+
+### 25 Sep 2023
+
+* *1 hour* Wrote brief summaries of 2 interesting and relevant papers for background
