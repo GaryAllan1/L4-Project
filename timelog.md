@@ -33,4 +33,4 @@
 
 ### 26 Sep 2023
 
-8 *1 hour* Added some more summary information for the background literature
+8 *2.5 hours* Added some more summary information for the background literature
