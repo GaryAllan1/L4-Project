@@ -30,3 +30,7 @@
 ### 25 Sep 2023
 
 * *1 hour* Wrote brief summaries of 2 interesting and relevant papers for background
+
+### 26 Sep 2023
+
+8 *1 hour* Added some more summary information for the background literature
