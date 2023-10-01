@@ -33,4 +33,12 @@
 
 ### 26 Sep 2023
 
-8 *2.5 hours* Added some more summary information for the background literature
+* *2.5 hours* Added some more summary information for the background literature
+
+### 30 Sep 2023
+
+* *1 hour* Made project gantt chart
+
+### 1 Oct 2023
+
+* *1 hour* Found 3 exisiting and similar products related to project
