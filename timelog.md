@@ -42,3 +42,9 @@
 ### 1 Oct 2023
 
 * *1 hour* Found 3 exisiting and similar products related to project
+
+## Week 3
+
+### 3 Oct 2023
+
+* *2 hours* Made user stories and moscow priorization of requirements
