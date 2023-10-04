@@ -48,3 +48,7 @@
 ### 3 Oct 2023
 
 * *2 hours* Made user stories and moscow priorization of requirements
+
+## 4 Oct 2023
+
+* *2.5 hours* Started making wireframes
