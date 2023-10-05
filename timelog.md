@@ -52,3 +52,7 @@
 ## 4 Oct 2023
 
 * *2.5 hours* Started making wireframes
+
+## 5 Oct 2023
+
+* *4 hours* Finished wireframes/prototype and made system archtitecture diagram
