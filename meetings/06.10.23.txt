@@ -1,0 +1,23 @@
+06/10/23 Meeting
+
+Time: 12:00
+Who was present: Gary Allan and Mireilla Bikanga Ada
+
+Progress in previous week:
+Existing/Similar Products​
+Gantt Chart​
+Requirements​
+Some design (work in progress: wireframes + various diagrams)
+
+Issues discussed in meeting:
+
+Some modifications needed to the wireframes. 
+Specifically, give users access to chat bot in study area, while in assessment and while reviewing answers (will lead to better research in the end).
+Quiz should be focused on 1 hard topic (topic TBD).
+Change language used in system so that users are not instructed to use the chat-bot. Make them aware of its capabilities but let them go to it, don't tell them to use it.
+Users cannot access quiz until they've studied.
+
+Objectives for coming week:
+Come up with a cool name for the software system
+Make modificaitons to the wireframes
+ER Diagram, Activity Diagram
