@@ -25,7 +25,7 @@ class Response(models.Model):
     user_id = models.ForeignKey(HaileUser, on_delete=models.CASCADE)
     question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.TextField()
-    is_correct = models.BooleanField()
+    is_correct = models.BooleanField(null=True)
 
 class Quiz(models.Model):
     quiz_id = models.AutoField(primary_key=True)
