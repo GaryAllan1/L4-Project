@@ -2,14 +2,65 @@
 {% extends "base.html" %}
 
 {% block body_block %}
-<h1>HAILE</h1>
-<p>
+<h1 class="title">HAILE</h1>
+<p class="intro-para">
     HAILE is the Hub for Advancements in Learning and Education.
     There are 2 main areas of the site to draw your attention to: Study area and the Quiz are.
     The study area is were you should go t oprepare, prior to taking the quiz, in the quiz area.
 </p>
 
-<div>
+<div class="block-container">
+    <div class="study-area-block">
+        <h4>Study Area</h4>
+        <p> Here you can prepare for the quiz beforehand, it will contain the content in the areas tat the quiz will cover</p>
+        <a href="#">Go To Study Area</a>
     
+    </div>
+    <div class="quiz-area-block">
+        <h4>Quiz</h4>
+        <p>
+            The quiz is the main focus of the website, here you will be presented with 10 questions, some multiple choice, some 
+            written/explanation answers and some where you'll have to submit short code snippets
+        </p>
+        <a href="#">Go To Quiz</a>
+    
+    </div>
 </div>
+
+<style>
+    .title {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .intro-para {
+        text-align: center;
+        margin-top: 20px;
+    } 
+
+    .block-container {
+        background-color: white;
+        display: flex; /* Display children side by side */
+        padding: 20px; /* Add some padding for spacing */
+        justify-content: center; /* Center horizontally within the container */
+    }
+
+    .study-area-block,
+    .quiz-area-block {
+        flex: 1; /* Share equal width */
+        text-align: center; /* Center text horizontally */
+        padding: 20px; /* Add padding inside each block for spacing */
+        margin: 10px; /* Add margin for spacing between blocks */
+        background-color: #b9b9b9; /* Gray background color */
+        border-radius: 20px; /* Rounded edges */
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        justify-content: space-between; /* Space content evenly vertically */
+        align-items: center; /* Center content horizontally */
+    }
+
+    .quiz-area-block{
+        margin-left: 20px;
+    }
+
+</style>
 {% endblock %}
