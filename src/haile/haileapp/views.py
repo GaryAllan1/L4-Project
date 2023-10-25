@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
 
-def index(reqeust):
-    return HttpResponse("Hello, world!")
+def index(request):
+    return render(request, 'index.html')
