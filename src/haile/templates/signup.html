@@ -12,6 +12,11 @@
         margin-top: 20px;
     }
 </style>
+{% if error_message %}
+    <script>
+        alert("{{ error_message }}");
+    </script>
+{% endif%}
 
 <h2>Sign up</h2>
  <form method="post">
