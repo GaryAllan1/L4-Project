@@ -4,7 +4,7 @@
 {% block body_block %}
 <h1 class="title">HAILE</h1>
 
-{% if user %}
+{% if user.first_name %}
     <h3 class="user-hello">Hello {{user.first_name}},</h3>
 {% endif%}
 <p class="intro-para">
@@ -12,7 +12,7 @@
     There are 2 main areas of the site to draw your attention to: Study area and the Quiz are.
     The study area is were you should go t oprepare, prior to taking the quiz, in the quiz area.
 </p>
-{% if not user %}
+{% if not user.first_name %}
     <p class="signup-warning-text">Please note you will have to sign up before studying or doing the quiz</p>
     <a class="signup-link" href="{% url 'signup' %}">Sign up</a>
 {% endif %}
