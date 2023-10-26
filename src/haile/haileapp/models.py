@@ -6,7 +6,7 @@ class HaileUser(models.Model):
     surname = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    final_score = models.IntegerField()
+    final_score = models.IntegerField(null=True)
 
 class ChatPrompt(models.Model):
     prompt_id = models.AutoField(primary_key=True)

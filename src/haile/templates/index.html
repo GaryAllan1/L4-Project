@@ -3,12 +3,19 @@
 
 {% block body_block %}
 <h1 class="title">HAILE</h1>
+
+{% if user %}
+    <h3 class="user-hello">Hello {{user.first_name}},</h3>
+{% endif%}
 <p class="intro-para">
     HAILE is the Hub for Advancements in Learning and Education.
     There are 2 main areas of the site to draw your attention to: Study area and the Quiz are.
     The study area is were you should go t oprepare, prior to taking the quiz, in the quiz area.
 </p>
-
+{% if not user %}
+    <p class="signup-warning-text">Please note you will have to sign up before studying or doing the quiz</p>
+    <a class="signup-link" href="{% url 'signup' %}">Sign up</a>
+{% endif %}
 <div class="block-container">
     <div class="study-area-block">
         <h4>Study Area</h4>
@@ -28,6 +35,11 @@
 </div>
 
 <style>
+    .signup-warning-text,
+    .signup-link,
+    .user-hello {
+        text-align: center;
+    }
     .title {
         text-align: center;
         margin-top: 20px;

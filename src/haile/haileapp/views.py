@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
+from .forms import SignUpForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 def index(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        context_dict = {'user': request.user}
+    return render(request, 'index.html', context=context_dict)
 
 def study(request):
     return render(request,'study.html')
@@ -13,3 +18,23 @@ def quiz_intro(request):
 
 def signup(request):
     return render(request,'signup.html')
+ 
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  
+            # load the profile instance created by the signal
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+
+            # login user after signing up
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+
+            # redirect user to home page
+            return redirect('index')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
