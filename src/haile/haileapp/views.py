@@ -5,6 +5,7 @@ from .forms import SignUpForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
+from .models import HaileUser
 
 def index(request):
     if request.user.is_authenticated:
@@ -28,24 +29,26 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            try:
-                user = form.save()
-                user.refresh_from_db()  
-                # load the profile instance created by the signal
-                user.save()
-                raw_password = form.cleaned_data.get('password1')
+            #try:
+            user = form.save()
+            user.refresh_from_db()  
+            # load the profile instance created by the signal
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
 
-                # login user after signing up
-                user = authenticate(username=user.username, password=raw_password)
-                login(request, user)
+            HaileUser.objects.create(user=user)
 
-                # redirect user to home page
-                return redirect('index')
+            # login user after signing up
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+
+            # redirect user to home page
+            return redirect('index')
             
-            except IntegrityError:
-                form = SignUpForm()
-                return render(request,'signup.html', {'form': form,
-                                                      'error_message': 'An account with that email address already exists.'})
+    #         except IntegrityError:
+    #             form = SignUpForm()
+    #             return render(request,'signup.html', {'form': form,
+    #                                                   'error_message': 'An account with that email address already exists.'})
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
