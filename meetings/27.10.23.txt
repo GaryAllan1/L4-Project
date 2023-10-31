@@ -1,0 +1,14 @@
+27/10/23 Meeting
+
+Time: 12:00
+Who was present: Gary Allan and Mireilla Bikanga Ada
+
+Progress in previous week:
+Have a skeleton website with pages and a functional signup/login system
+
+Issues discussed in meeting:
+I proposed a potential issue concerning ecologic validity of results to note in future. Mireilla assured this was not a problem.
+
+Objectives for coming week:
+Hopefully a working chat-bot
+If this poses a significant problem I will try and at least get more content on the pages.
