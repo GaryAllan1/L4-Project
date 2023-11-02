@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, ChatPromptForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
-from .models import HaileUser
+from .models import HaileUser, ChatPrompt
 
 def index(request):
     if request.user.is_authenticated:
@@ -17,7 +17,20 @@ def index(request):
 def study(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('signup'))
-    return render(request,'study.html')
+    
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': # check if ajax
+        form = ChatPromptForm(request.POST)
+        if form.is_valid():
+            prompt_text = form.cleaned_data['prompt_text']
+            # create chat prompt in database
+            # call openai api to generate a response
+            return JsonResponse({'prompt_text': prompt_text}, status=200)
+        else:
+            return JsonResponse({'errors': form.errors.as_json()}, status=400)
+    else:
+        form = ChatPromptForm()
+        return render(request,'study.html', {'form': form})
+
 
 def quiz_intro(request):
     if not request.user.is_authenticated:
@@ -48,11 +61,7 @@ def signup(request):
 
             # redirect user to home page
             return redirect('index')
-            
-    #         except IntegrityError:
-    #             form = SignUpForm()
-    #             return render(request,'signup.html', {'form': form,
-    #                                                   'error_message': 'An account with that email address already exists.'})
+
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})

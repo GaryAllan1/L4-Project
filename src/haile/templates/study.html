@@ -5,5 +5,37 @@
 <h1>Study Area</h1>
 <p>For now this page sserves as testing for the chat-bot</p>
 
-<form action=""></form>
+<form id="chat-form" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" name="contact-submit" class="btn btn-success btn-lg" />
+
+</form>
+
+<div class="response">
+    <p class="text">Sample Text</p>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        $("#chat-form").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: {% url 'study'%},
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function (response) {
+                    $(".response .text").text(response['prompt_text']);
+                    console.log(response);
+                },
+                error: function (response) {
+                    $(".response .text").text(response);
+                    console.log(response);
+                },
+            });
+        });
+    })
+</script>
 {% endblock %}

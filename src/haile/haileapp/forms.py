@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from .models import ChatPrompt
  
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -13,3 +14,8 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "password")
+
+class ChatPromptForm(forms.ModelForm):
+    class Meta:
+        model = ChatPrompt
+        fields = ('prompt_text',)
