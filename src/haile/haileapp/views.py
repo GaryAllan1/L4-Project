@@ -5,7 +5,7 @@ from .forms import SignUpForm, LoginForm, ChatPromptForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
-from .models import HaileUser, ChatPrompt
+from .models import *
 import os
 import openai
 from dotenv import load_dotenv
@@ -29,6 +29,7 @@ def study(request):
             # create chat prompt in database
             haile_user = HaileUser.objects.get(user=request.user)
             ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study')
+            
             # call openai api to generate a response
             load_dotenv()
             openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -41,6 +42,8 @@ def study(request):
                 ]
             )
             response = completion.choices[0].message["content"]
+
+            # store responses in database?
             return JsonResponse({'prompt_text': response}, status=200)
         else:
             return JsonResponse({'errors': form.errors.as_json()}, status=400)
