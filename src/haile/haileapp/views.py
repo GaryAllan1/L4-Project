@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
 from .models import HaileUser, ChatPrompt
+import os
+import openai
+from dotenv import load_dotenv
 
 def index(request):
     if request.user.is_authenticated:
@@ -22,9 +25,23 @@ def study(request):
         form = ChatPromptForm(request.POST)
         if form.is_valid():
             prompt_text = form.cleaned_data['prompt_text']
+            prompt_text = "limit your response to 150 words. " + prompt_text
             # create chat prompt in database
+            haile_user = HaileUser.objects.get(user=request.user)
+            ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study')
             # call openai api to generate a response
-            return JsonResponse({'prompt_text': prompt_text}, status=200)
+            load_dotenv()
+            openai.api_key = os.getenv("OPENAI_API_KEY")
+
+            completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are an expert in algorithms and data strucutres."},
+                    {"role": "user", "content": prompt_text}
+                ]
+            )
+            response = completion.choices[0].message["content"]
+            return JsonResponse({'prompt_text': response}, status=200)
         else:
             return JsonResponse({'errors': form.errors.as_json()}, status=400)
     else:

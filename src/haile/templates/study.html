@@ -28,10 +28,9 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     $(".response .text").text(response['prompt_text']);
-                    console.log(response);
                 },
                 error: function (response) {
-                    $(".response .text").text(response);
+                    $(".response .text").text('error');
                     console.log(response);
                 },
             });
