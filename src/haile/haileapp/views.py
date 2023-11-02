@@ -15,9 +15,13 @@ def index(request):
     return render(request, 'index.html', context=context_dict)
 
 def study(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('signup'))
     return render(request,'study.html')
 
 def quiz_intro(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('signup'))
     return render(request,'quiz_intro.html')
 
  
