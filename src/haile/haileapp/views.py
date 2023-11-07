@@ -9,6 +9,7 @@ from .models import *
 import os
 import openai
 from dotenv import load_dotenv
+import time
 
 def call_api(prompt):
     load_dotenv()
@@ -22,6 +23,7 @@ def call_api(prompt):
         ]
     )
     response = completion.choices[0].message["content"]
+    # time.sleep(10)
     # response = "this is a test response"
     return response
 
