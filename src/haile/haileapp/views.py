@@ -43,11 +43,12 @@ def study(request):
         if form.is_valid():
             prompt_text = form.cleaned_data['prompt_text']
             prompt_text = "limit your response to 150 words. " + prompt_text
+            response = call_api(prompt_text)
             # create chat prompt in database
             haile_user = HaileUser.objects.get(user=request.user)
-            ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study')
+            ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study', ai_response=response)
             # call openai api to generate a response
-            response = call_api(prompt_text)
+            
             #response = "response"
 
             # store responses in database?

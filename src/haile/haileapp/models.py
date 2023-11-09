@@ -11,6 +11,7 @@ class ChatPrompt(models.Model):
     user_id = models.ForeignKey(HaileUser, on_delete=models.CASCADE)
     prompt_text = models.TextField()
     section_from = models.CharField(max_length=100)
+    ai_response = models.TextField(null=True, blank=True)
 
 class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
