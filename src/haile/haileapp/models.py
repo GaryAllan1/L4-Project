@@ -18,13 +18,8 @@ class Quiz(models.Model):
     title = models.CharField(max_length=100)
 
 class Question(models.Model):
-    QUESTION_TYPES = [
-        ('multiple_choice', 'Multiple Choice'),
-        ('extended_answer', 'Extended Answer'),
-    ]
 
     question_id = models.AutoField(primary_key=True)
-    question_type = models.CharField(max_length=50, choices=QUESTION_TYPES)
     question_text = models.TextField()
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
