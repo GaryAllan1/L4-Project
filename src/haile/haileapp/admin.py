@@ -6,9 +6,11 @@ admin.site.register(HaileUser)
 
 admin.site.register(ChatPrompt)
 
-admin.site.register(Question)
+admin.site.register(MultipleChoiceQuestion)
+admin.site.register(ExtendedAnswerQuestion)
 
-admin.site.register(Response)
+admin.site.register(MultipleChoiceResponse)
+admin.site.register(ExtendedAnswerResponse)
 
 admin.site.register(Quiz)
 

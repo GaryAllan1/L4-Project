@@ -18,16 +18,38 @@ class Quiz(models.Model):
     title = models.CharField(max_length=100)
 
 class Question(models.Model):
+    QUESTION_TYPES = [
+        ('multiple_choice', 'Multiple Choice'),
+        ('extended_answer', 'Extended Answer'),
+    ]
+
     question_id = models.AutoField(primary_key=True)
-    question_type = models.CharField(max_length=50)
+    question_type = models.CharField(max_length=50, choices=QUESTION_TYPES)
     question_text = models.TextField()
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
+
+class MultipleChoiceQuestion(Question):
+    choices = models.JSONField() 
+    correct_choice = models.IntegerField()
+
+class ExtendedAnswerQuestion(Question):
     correct_answer = models.TextField()
-    quiz_id = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
 class Response(models.Model):
+    class Meta:
+        abstract = True
+    
     response_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(HaileUser, on_delete=models.CASCADE)
-    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.TextField()
+    user = models.ForeignKey(HaileUser, on_delete=models.CASCADE)
     is_correct = models.BooleanField(null=True)
+
+class MultipleChoiceResponse(Response):
+    question = models.ForeignKey(MultipleChoiceQuestion, on_delete=models.CASCADE)
+    selected_choice = models.IntegerField()
+
+class ExtendedAnswerResponse(Response):
+    question = models.ForeignKey(ExtendedAnswerQuestion, on_delete=models.CASCADE)
 
