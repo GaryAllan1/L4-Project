@@ -13,11 +13,16 @@ class ChatPrompt(models.Model):
     section_from = models.CharField(max_length=100)
     ai_response = models.TextField(null=True, blank=True)
 
+class Quiz(models.Model):
+    quiz_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100)
+
 class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_type = models.CharField(max_length=50)
     question_text = models.TextField()
     correct_answer = models.TextField()
+    quiz_id = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
 class Response(models.Model):
     response_id = models.AutoField(primary_key=True)
@@ -26,6 +31,3 @@ class Response(models.Model):
     text = models.TextField()
     is_correct = models.BooleanField(null=True)
 
-class Quiz(models.Model):
-    quiz_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)

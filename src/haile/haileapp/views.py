@@ -47,11 +47,7 @@ def study(request):
             # create chat prompt in database
             haile_user = HaileUser.objects.get(user=request.user)
             ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study', ai_response=response)
-            # call openai api to generate a response
             
-            #response = "response"
-
-            # store responses in database?
             return JsonResponse({'response': response}, status=200)
         else:
             return JsonResponse({'errors': form.errors.as_json()}, status=400)
