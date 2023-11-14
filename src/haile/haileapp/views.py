@@ -124,6 +124,29 @@ def user_login(request):
             form = LoginForm()
         return render(request, 'login.html', {'form': form})
     
-def quiz(request, question=1):
-    question_object = MultipleChoiceQuestion.objects.get(question_id=1)
-    return render(request, 'question1.html', {'question': question_object})
+def quiz(request, question):
+    question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
+                     4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
+    print(f"********* WE GOT QUESTION {question} **********")
+
+    question_type_number, question_type = question_dict[int(question)]
+    question_object = get_question(question_type_number, question_type)
+
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': # check if ajax
+        print(request.POST)
+
+        next_question_number = int(question) + 1
+        return redirect('quiz', question=next_question_number)        
+
+    return render(request, f'question{question}.html', {'question': question_object})
+
+def get_question(question_number, question_type):
+
+    if question_type == 'MultipleChoice':
+        return MultipleChoiceQuestion.objects.get(question_id=question_number)     
+    else: # question_type == 'ExtendedAnswer'
+        return ExtendedAnswerQuestion.objects.get(question_id=question_number)
+
+
+
+

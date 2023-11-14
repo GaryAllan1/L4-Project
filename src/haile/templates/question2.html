@@ -85,9 +85,8 @@
     <div class="quiz-container mb-5">
         <div class="row">
             <div class="col-12">
-				<p class="fw-bold">1. {{ question.question_text }}</p>
+				<p class="fw-bold">2. {{ question.question_text }}</p>
 				<div>
-					{% csrf_token %}
 					{% for choice in question.choices %}
 						<input type="radio" name="choices" id="choice{{ forloop.counter }}" />
 						<label for="choice{{ forloop.counter }}" class="box {% if forloop.counter|divisibleby:4 %}forth{% elif forloop.counter|divisibleby:3 %}third{% elif forloop.counter|divisibleby:2 %}second{% else %}first{% endif %}">
@@ -121,9 +120,15 @@
             type: "POST",
             url: "{% url 'quiz' 1 %}",  // Replace 'next_question_view' with the actual URL name for the next question view
             data: {
-				csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(), // Include the CSRF token
-				'question': '1',
                 'selected_choice_index': selectedChoiceIndex
+            },
+            success: function (data) {
+                // Handle the success response, if needed
+                console.log(data);
+            },
+            error: function (error) {
+                // Handle the error, if needed
+                console.error(error);
             }
         });
     }
