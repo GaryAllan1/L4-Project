@@ -9,17 +9,12 @@
         text-align: center;
     }
 
-    .quiz-container a {
+    .quiz-container button {
         background-color: #3e4ab8;
         border-radius: 10px;
         padding: 15px 30px;
         font-size: 18px; 
         color: #ffffff; 
-        display: inline-block;
-        margin: 0 auto;
-    }
-
-    h1 {
     }
 
     h1 {
@@ -32,12 +27,8 @@
 </style>
 
 <div class="quiz-container">
-    <h1>Quiz</h1>
-    <p>Welcome to the quiz. Press the button below to begin</p>
-
-
-    <a href="{% url 'quiz' 1 %}">Begin Quiz</a>
-
+    <h1>Question 1</h1>
+    
 </div>
 
 {% endblock %}

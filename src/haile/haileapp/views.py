@@ -111,8 +111,7 @@ def user_login(request):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            print("**************************************************")
-            print(request.POST)
+
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
@@ -124,3 +123,6 @@ def user_login(request):
         else:
             form = LoginForm()
         return render(request, 'login.html', {'form': form})
+    
+def quiz(request, question=1):
+    return render(request, 'question1.html')
