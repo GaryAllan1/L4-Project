@@ -125,4 +125,5 @@ def user_login(request):
         return render(request, 'login.html', {'form': form})
     
 def quiz(request, question=1):
-    return render(request, 'question1.html')
+    question_object = MultipleChoiceQuestion.objects.get(question_id=1)
+    return render(request, 'question1.html', {'question': question_object})
