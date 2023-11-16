@@ -127,18 +127,26 @@ def user_login(request):
 def quiz(request, question):
     question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
                      4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
-    print(f"********* WE GOT QUESTION {question} **********")
+    
 
     question_type_number, question_type = question_dict[int(question)]
     question_object = get_question(question_type_number, question_type)
 
-    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': # check if ajax
+    if request.method == 'POST':
         print(request.POST)
 
-        next_question_number = int(question) + 1
-        return redirect('quiz', question=next_question_number)        
+        # handle the checking for correctness here
 
-    return render(request, f'question{question}.html', {'question': question_object})
+        next_question_number = int(question) + 1
+        # check if next question exists
+        if next_question_number in question_dict:
+            return JsonResponse({'next_question_number': next_question_number})
+        else:
+            # No more questions, you can redirect to a finish page or home
+            return JsonResponse({'finish': True})
+    
+    context = {'question': question_object, 'question_number': int(question)}
+    return render(request, 'multi_choice_question.html', context)
 
 def get_question(question_number, question_type):
 

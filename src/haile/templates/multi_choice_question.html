@@ -85,7 +85,7 @@
     <div class="quiz-container mb-5">
         <div class="row">
             <div class="col-12">
-				<p class="fw-bold">1. {{ question.question_text }}</p>
+				<p class="fw-bold">{{ question_number }}. {{ question.question_text }}</p>
 				<div>
 					{% csrf_token %}
 					{% for choice in question.choices %}
@@ -119,11 +119,19 @@
 
 		$.ajax({
             type: "POST",
-            url: "{% url 'quiz' 1 %}",  // Replace 'next_question_view' with the actual URL name for the next question view
             data: {
 				csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(), // Include the CSRF token
-				'question': '1',
+				'question': '{{ question_number }}',
                 'selected_choice_index': selectedChoiceIndex
+            },
+            success: function(data) {
+                if (data.finish) {
+                    // No more questions, redirect to finish page or home
+                    window.location.href = "{% url 'index' %}";
+                } else {
+                    // Redirect to the next question
+                    window.location.href = "{% url 'quiz' 0 %}".replace('0', data.next_question_number);
+                }
             }
         });
     }
