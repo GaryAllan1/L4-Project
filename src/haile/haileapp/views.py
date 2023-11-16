@@ -169,6 +169,20 @@ def quiz(request, question):
     else: # question type is extended answer
         if request.method == 'POST':
             print(request.POST)
+            if request.POST.get('chat') == 'true':
+                # chat-bot functionality here
+                form = ChatPromptForm(request.POST)
+                if form.is_valid():
+                    prompt_text = form.cleaned_data['prompt_text']
+                    prompt_text = "limit your response to 150 words. " + prompt_text
+                    response = call_api(prompt_text)
+                    # create chat prompt in database
+                    haile_user = HaileUser.objects.get(user=request.user)
+                    ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='extended_answer', ai_response=response)
+                    
+                    return JsonResponse({'response': response}, status=200)
+                else:
+                    return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
             # handle the checking for correctness here
 
