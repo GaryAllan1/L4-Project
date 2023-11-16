@@ -125,28 +125,46 @@ def user_login(request):
         return render(request, 'login.html', {'form': form})
     
 def quiz(request, question):
+
     question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
                      4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
     
 
     question_type_number, question_type = question_dict[int(question)]
     question_object = get_question(question_type_number, question_type)
+    if question_type == 'MultipleChoice':
+        if request.method == 'POST':
+            print(request.POST)
 
-    if request.method == 'POST':
-        print(request.POST)
+            # handle the checking for correctness here
 
-        # handle the checking for correctness here
-
-        next_question_number = int(question) + 1
-        # check if next question exists
-        if next_question_number in question_dict:
-            return JsonResponse({'next_question_number': next_question_number})
-        else:
-            # No more questions, you can redirect to a finish page or home
-            return JsonResponse({'finish': True})
+            next_question_number = int(question) + 1
+            # check if next question exists
+            if next_question_number in question_dict:
+                return JsonResponse({'next_question_number': next_question_number})
+            else:
+                # No more questions, you can redirect to a finish page or home
+                return JsonResponse({'finish': True})
+        
+        context = {'question': question_object, 'question_number': int(question)}
+        return render(request, 'multi_choice_question.html', context)
     
-    context = {'question': question_object, 'question_number': int(question)}
-    return render(request, 'multi_choice_question.html', context)
+    else: # question type is extended answer
+        if request.method == 'POST':
+            print(request.POST)
+
+            # handle the checking for correctness here
+
+            next_question_number = int(question) + 1
+            # check if next question exists
+            if next_question_number in question_dict:
+                return JsonResponse({'next_question_number': next_question_number})
+            else:
+                # No more questions, you can redirect to a finish page or home
+                return JsonResponse({'finish': True})
+        
+        context = {'question': question_object, 'question_number': int(question)}
+        return render(request, 'extended_answer.html', context)
 
 def get_question(question_number, question_type):
 
