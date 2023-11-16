@@ -138,6 +138,7 @@
                 data: {
                     csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(), // Include the CSRF token
                     prompt_text: userMessage,
+                    chat: true,
                 },
                 beforeSend: function(){
                     var responseHTML = `

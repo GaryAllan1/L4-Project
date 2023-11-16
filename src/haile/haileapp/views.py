@@ -39,18 +39,21 @@ def study(request):
         return HttpResponseRedirect(reverse('signup'))
     
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest': # check if ajax
-        form = ChatPromptForm(request.POST)
-        if form.is_valid():
-            prompt_text = form.cleaned_data['prompt_text']
-            prompt_text = "limit your response to 150 words. " + prompt_text
-            response = call_api(prompt_text)
-            # create chat prompt in database
-            haile_user = HaileUser.objects.get(user=request.user)
-            ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study', ai_response=response)
-            
-            return JsonResponse({'response': response}, status=200)
-        else:
-            return JsonResponse({'errors': form.errors.as_json()}, status=400)
+        
+        if request.POST.get('chat') == 'true':
+
+            form = ChatPromptForm(request.POST)
+            if form.is_valid():
+                prompt_text = form.cleaned_data['prompt_text']
+                prompt_text = "limit your response to 150 words. " + prompt_text
+                response = call_api(prompt_text)
+                # create chat prompt in database
+                haile_user = HaileUser.objects.get(user=request.user)
+                ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='study', ai_response=response)
+                
+                return JsonResponse({'response': response}, status=200)
+            else:
+                return JsonResponse({'errors': form.errors.as_json()}, status=400)
     else:
         form = ChatPromptForm()
         return render(request,'study.html', {'form': form})
@@ -135,6 +138,20 @@ def quiz(request, question):
     if question_type == 'MultipleChoice':
         if request.method == 'POST':
             print(request.POST)
+            if request.POST.get('chat') == 'true':
+                # chat-bot functionality here
+                form = ChatPromptForm(request.POST)
+                if form.is_valid():
+                    prompt_text = form.cleaned_data['prompt_text']
+                    prompt_text = "limit your response to 150 words. " + prompt_text
+                    response = call_api(prompt_text)
+                    # create chat prompt in database
+                    haile_user = HaileUser.objects.get(user=request.user)
+                    ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='multiple_choice', ai_response=response)
+                    
+                    return JsonResponse({'response': response}, status=200)
+                else:
+                    return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
             # handle the checking for correctness here
 
