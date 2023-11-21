@@ -11,6 +11,11 @@ import openai
 from dotenv import load_dotenv
 import time
 from django.db.models import F
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 
 def call_api(prompt):
     load_dotenv()
@@ -195,7 +200,7 @@ def quiz(request, question):
                 form = ChatPromptForm(request.POST)
                 if form.is_valid():
                     prompt_text = form.cleaned_data['prompt_text']
-                    prompt_text = "limit your response to 150 words. " + prompt_text
+                    prompt_text = "Be as concise as possible. " + prompt_text
                     response = call_api(prompt_text)
                     # create chat prompt in database
                     haile_user = HaileUser.objects.get(user=request.user)
@@ -206,7 +211,14 @@ def quiz(request, question):
                     return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
             # handle the checking for correctness here
-
+            correct_answer = question_object.correct_answer
+            user_answer = request.POST.get('userResponse')
+            similarity = calculate_cosine_similarity(correct_answer, user_answer)
+            print(f"SIMILARITY: {similarity}")
+            if similarity >= 0.45:
+                print("correct")
+            else:
+                print("incorrect")
             next_question_number = int(question) + 1
             # check if next question exists
             if next_question_number in question_dict:
@@ -226,5 +238,27 @@ def get_question(question_number, question_type):
         return ExtendedAnswerQuestion.objects.get(question_id=question_number)
 
 
+def preprocess_text(text):
+    # Tokenize and remove stopwords
+    tokens = [word.lower() for word in word_tokenize(text) if word.isalnum() and word.lower() not in stopwords.words('english')]
+    
+    # Stemming
+    stemmer = PorterStemmer()
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
 
+    return " ".join(stemmed_tokens)
+
+def calculate_cosine_similarity(answer1, answer2):
+    # Preprocess the answers
+    processed_answer1 = preprocess_text(answer1)
+    processed_answer2 = preprocess_text(answer2)
+
+    # Create a CountVectorizer to convert the answers into vectors
+    vectorizer = CountVectorizer().fit_transform([processed_answer1, processed_answer2])
+
+    # Calculate cosine similarity
+    similarity_matrix = cosine_similarity(vectorizer)
+    similarity = similarity_matrix[0, 1]
+
+    return similarity
 
