@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class HaileUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    final_score = models.IntegerField(null=True)
+    final_score = models.IntegerField(default=0)
 
 class ChatPrompt(models.Model):
     prompt_id = models.AutoField(primary_key=True)
@@ -44,6 +44,9 @@ class Response(models.Model):
 class MultipleChoiceResponse(Response):
     question = models.ForeignKey(MultipleChoiceQuestion, on_delete=models.CASCADE)
     selected_choice = models.IntegerField()
+
+    class Meta:
+        unique_together = ('user', 'question')
 
 class ExtendedAnswerResponse(Response):
     question = models.ForeignKey(ExtendedAnswerQuestion, on_delete=models.CASCADE)

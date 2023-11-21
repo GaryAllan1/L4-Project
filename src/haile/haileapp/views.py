@@ -10,6 +10,7 @@ import os
 import openai
 from dotenv import load_dotenv
 import time
+from django.db.models import F
 
 def call_api(prompt):
     load_dotenv()
@@ -154,6 +155,26 @@ def quiz(request, question):
                     return JsonResponse({'errors': form.errors.as_json()}, status=400)
 
             # handle the checking for correctness here
+            user_answer = int(request.POST.get('selected_choice_index'))
+
+            user = request.user
+            haile_user = HaileUser.objects.filter(user=user)[0]
+            if question_object.correct_choice == user_answer:
+                is_correct = True   
+            else:
+                is_correct = False
+
+            response, created = MultipleChoiceResponse.objects.get_or_create(
+                user=haile_user,
+                question=question_object,
+                defaults={'is_correct': is_correct, 'selected_choice': user_answer}
+            )
+
+            if not created:
+                # Update the existing record
+                response.is_correct = is_correct
+                response.selected_choice = user_answer
+                response.save()            
 
             next_question_number = int(question) + 1
             # check if next question exists
