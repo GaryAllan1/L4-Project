@@ -216,9 +216,25 @@ def quiz(request, question):
             similarity = calculate_cosine_similarity(correct_answer, user_answer)
             print(f"SIMILARITY: {similarity}")
             if similarity >= 0.45:
-                print("correct")
+                is_correct = True
             else:
-                print("incorrect")
+                is_correct = False
+
+            user = request.user
+            haile_user = HaileUser.objects.filter(user=user)[0]
+            response, created = ExtendedAnswerResponse.objects.get_or_create(
+                user=haile_user,
+                question=question_object,
+                defaults={'is_correct': is_correct, 'user_response': user_answer}
+            )
+
+            if not created:
+                # Update the existing record
+                response.is_correct = is_correct
+                response.user_response = user_answer
+                response.save()
+
+
             next_question_number = int(question) + 1
             # check if next question exists
             if next_question_number in question_dict:

@@ -50,4 +50,4 @@ class MultipleChoiceResponse(Response):
 
 class ExtendedAnswerResponse(Response):
     question = models.ForeignKey(ExtendedAnswerQuestion, on_delete=models.CASCADE)
-
+    user_response = models.TextField(blank=True, null=True)
