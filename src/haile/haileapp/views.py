@@ -278,3 +278,38 @@ def calculate_cosine_similarity(answer1, answer2):
 
     return similarity
 
+
+def review(request):
+
+    # calculate the users final score
+    user = HaileUser.objects.filter(user=request.user)[0]
+    extended_responses = ExtendedAnswerResponse.objects.filter(user=user, is_correct=True)
+    multi_choice_responses = MultipleChoiceResponse.objects.filter(user=user, is_correct=True)
+    final_score = len(extended_responses) + len(multi_choice_responses)
+
+    user.final_score = final_score
+    user.save()
+
+    context = {'final_score': user.final_score}
+    return render(request, 'review.html', context=context)
+
+def review_answer(request, question):
+    user = HaileUser.objects.filter(user=request.user)[0]
+    question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
+                     4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
+    
+
+    question_type_number, question_type = question_dict[int(question)]
+    question_object = get_question(question_type_number, question_type)
+    if question_type == 'MultipleChoice':
+        response_object = MultipleChoiceResponse.objects.filter(user=user, question=question_object)[0]
+        print(response_object.selected_choice)
+    elif question_type == 'ExtendedAnswer':
+        response_object = ExtendedAnswerResponse.objects.filter(user=user, question=question_object)[0]
+
+    context = {'question_number': question,'question': question_object, 'response': response_object}
+
+    if question_type == 'ExtendedAnswer':
+        return render(request, 'extended_review.html', context)
+    else:
+        return render(request, 'multi_choice_review.html', context)

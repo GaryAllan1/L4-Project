@@ -80,7 +80,7 @@
 			border: 6px solid #8e498e;
 			background-color: #fff;
 		}
-
+        
         .container {
             display: flex;
             justify-content: space-between;
@@ -166,14 +166,23 @@
                     <p class="fw-bold">{{ question_number }}. {{ question.question_text }}</p>
                     <div>
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <textarea class="form-control" id="extendedAnswer" rows="6" placeholder="Enter your extended answer"></textarea>
-                        </div>
+                        {% for choice in question.choices %}
+                            <input type="radio" name="choices" id="choice{{ forloop.counter }}" disabled />
+                            <label for="choice{{ forloop.counter }}" class="box {% if forloop.counter|divisibleby:4 %}forth{% elif forloop.counter|divisibleby:3 %}third{% elif forloop.counter|divisibleby:2 %}second{% else %}first{% endif %}">
+                                <div class="course">
+                                    <span class="circle"></span>
+                                    <span class="subject">{{ choice }}</span>
+                                </div>
+                            </label>
+                        {% endfor %}
                     </div>
+
+                    <p>Your choice: {{ response.selected_choice }}</p>
+                    <p>Correct Choice: {{ question.correct_choice }}</p>
                 </div>
                 <div class="col-12">
                     <div class="d-flex justify-content-center">
-                        <button class="btn btn-primary px-4 py-2 fw-bold" onclick="getSelectedChoice()">continue</button>
+                        <button class="btn btn-primary px-4 py-2 fw-bold" onclick="window.location.href={% url 'review' %}">continue</button>
                     </div>
                 </div>
             </div>
@@ -209,29 +218,8 @@
 
 {% block javascript %}
 <script>
-    function getSelectedChoice() {
-        var userResponse = $("#extendedAnswer").val();
 
-		$.ajax({
-            type: "POST",
-            data: {
-				csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(), // Include the CSRF token
-				'question': '{{ question_number }}',
-                'userResponse': userResponse
-            },
-            success: function(data) {
-                if (data.finish) {
-                    // No more questions, redirect to finish page or home
-                    window.location.href = "{% url 'review' %}";
-                } else {
-                    // Redirect to the next question
-                    window.location.href = "{% url 'quiz' 0 %}".replace('0', data.next_question_number);
-                }
-            }
-        });
-    }
-
-    $(document).ready(function () {
+    {% comment %} $(document).ready(function () {
         $("#chat-form").submit(function (e) {
             e.preventDefault();
 
@@ -275,6 +263,6 @@
                 },
             });
         });
-    })
+    }) {% endcomment %}
 </script>
 {% endblock %}

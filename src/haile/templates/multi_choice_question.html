@@ -229,7 +229,7 @@
             success: function(data) {
                 if (data.finish) {
                     // No more questions, redirect to finish page or home
-                    window.location.href = "{% url 'index' %}";
+                    window.location.href = "{% url 'review' %}";
                 } else {
                     // Redirect to the next question
                     window.location.href = "{% url 'quiz' 0 %}".replace('0', data.next_question_number);
