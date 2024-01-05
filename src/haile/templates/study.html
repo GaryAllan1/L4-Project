@@ -2,6 +2,11 @@
 {% extends "base.html" %}
 
 {% block body_block %}
+{% if display_alert %}
+    <script>
+        alert("You have to study before you can access the quiz.");
+    </script>
+{% endif %}
 <div class="container">
     <div class="study-container mt-5">
         <h2>Study Content</h2>
@@ -34,10 +39,30 @@
     </div>
 </div>
 
+<div class="has-studied">
+    <form action="{% url 'study' %}" method="post">
+        {% csrf_token %}
+        <div class="confirm-button">
+            <input type="submit" value="I confirm that I have studied and am ready to take the quiz" class="btn btn-success">
+        </div>
+    </form>
+</div>
+
+
+
 
 
 
 <style>
+    .confirm-button{
+        display: flex;
+        justify-content: center;
+    }
+    .has-studied{
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
     .container {
         display: flex;
         justify-content: space-between;

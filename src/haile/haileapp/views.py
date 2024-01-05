@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
-from .forms import SignUpForm, LoginForm, ChatPromptForm
+from .forms import SignUpForm, LoginForm, ChatPromptForm, HasStudiedForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
@@ -16,6 +16,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
+from django.contrib import messages
+
 
 def call_api(prompt):
     load_dotenv()
@@ -60,14 +62,32 @@ def study(request):
                 return JsonResponse({'response': response}, status=200)
             else:
                 return JsonResponse({'errors': form.errors.as_json()}, status=400)
+    elif request.method == 'POST': # form for confirming studied submitted
+        form = HasStudiedForm(request.POST)
+        if form.is_valid():
+            haile_user = HaileUser.objects.get(user=request.user)
+            haile_user.has_studied = True
+            haile_user.save()
+        return render(request,'quiz_intro.html')
     else:
+        display_alert = False
+        if request.session.get('redirect_to_study'):
+            del request.session['redirect_to_study'] # Clear the session variable
+            display_alert = True
         form = ChatPromptForm()
-        return render(request,'study.html', {'form': form})
+        return render(request,'study.html', {'form': form, 'display_alert': display_alert})
 
 
 def quiz_intro(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('signup'))
+    
+    haile_user = HaileUser.objects.get(user=request.user)
+    if not haile_user.has_studied:
+        request.session['redirect_to_study'] = True
+        return redirect('study')
+
+    
     return render(request,'quiz_intro.html')
 
  
