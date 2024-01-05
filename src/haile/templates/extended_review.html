@@ -206,7 +206,7 @@
 {% block javascript %}
 <script>
 
-    {% comment %} $(document).ready(function () {
+    $(document).ready(function () {
         $("#chat-form").submit(function (e) {
             e.preventDefault();
 
@@ -227,6 +227,7 @@
                     csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(), // Include the CSRF token
                     prompt_text: userMessage,
                     chat: true,
+                    review: true,
                 },
                 beforeSend: function(){
                     var responseHTML = `
@@ -250,6 +251,6 @@
                 },
             });
         });
-    }) {% endcomment %}
+    })
 </script>
 {% endblock %}

@@ -51,7 +51,7 @@ def study(request):
             form = ChatPromptForm(request.POST)
             if form.is_valid():
                 prompt_text = form.cleaned_data['prompt_text']
-                prompt_text = "limit your response to 150 words. " + prompt_text
+                prompt_text = "Be as concise as possible. " + prompt_text
                 response = call_api(prompt_text)
                 # create chat prompt in database
                 haile_user = HaileUser.objects.get(user=request.user)
@@ -149,11 +149,14 @@ def quiz(request, question):
                 form = ChatPromptForm(request.POST)
                 if form.is_valid():
                     prompt_text = form.cleaned_data['prompt_text']
-                    prompt_text = "limit your response to 150 words. " + prompt_text
+                    prompt_text = "Be as concise as possible. " + prompt_text
                     response = call_api(prompt_text)
                     # create chat prompt in database
                     haile_user = HaileUser.objects.get(user=request.user)
-                    ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='multiple_choice', ai_response=response)
+                    if request.POST.get('review') == 'true':
+                        ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='multiple_choice (review)', ai_response=response)
+                    else:
+                        ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='multiple_choice (quiz)', ai_response=response)
                     
                     return JsonResponse({'response': response}, status=200)
                 else:
@@ -204,7 +207,11 @@ def quiz(request, question):
                     response = call_api(prompt_text)
                     # create chat prompt in database
                     haile_user = HaileUser.objects.get(user=request.user)
-                    ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='extended_answer', ai_response=response)
+
+                    if request.POST.get('review') == 'true':
+                        ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='extended_answer (review)', ai_response=response)
+                    else:
+                        ChatPrompt.objects.create(user_id=haile_user, prompt_text=prompt_text, section_from='extended_answer (quiz)', ai_response=response)
                     
                     return JsonResponse({'response': response}, status=200)
                 else:
