@@ -185,6 +185,11 @@
                     </p>
 
                     <p>Correct Choice: {{ correct_choice }}</p>
+                    {% if response.is_correct == True %}
+                        <p>Congratulations, that is correct!</p>
+                    {% else %}
+                        <p>Unfortunately that is not correct</p>
+                    {% endif %}
 
                 </div>
                 <div class="col-12">
