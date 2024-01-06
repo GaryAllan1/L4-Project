@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% load static %}
 
 {% block body_block %}
 
@@ -164,6 +165,9 @@
             <div class="row">
                 <div class="col-12">
                     <p class="fw-bold">{{ question_number }}. {{ question.question_text }}</p>
+                    {% if question.image  %}
+                        <img src="{% static 'images/' %}{{ question.image }}" alt="Question Image">
+                    {% endif %}
                     <div>
                         {% csrf_token %}
                         {% for choice in question.choices %}

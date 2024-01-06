@@ -23,6 +23,7 @@ class Question(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_text = models.TextField()
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    image = models.ImageField(blank=True)
 
     class Meta:
         abstract = True
