@@ -6,7 +6,7 @@ from .models import ChatPrompt, HaileUser
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+        fields = ('first_name', 'username', 'password1', 'password2')
 
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

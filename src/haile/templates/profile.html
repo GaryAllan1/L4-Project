@@ -4,18 +4,21 @@
 {% block body_block %}
 
 <style>
-    h3, p, a {
+    h3, h5, p, a {
         text-align: center;
+    }
+    .profile {
+        margin-top: 20px;
     }
 </style>
 
-<h3> Your Profile: </h3>
+<h3 class="profile"> Your Profile </h3>
+
+<h5>{{ user.username }}</h5>
 
 {% if user %}
-    <p>First Name: {{ user.first_name }}</p>
-    <p>Last Name: {{ user.last_name }}</p>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email}}</p>
+    <p>Hi {{ user.first_name }}, if you're looking to logout you can do so here: </p>
+
 
 {% endif %}
 
