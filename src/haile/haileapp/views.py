@@ -339,4 +339,6 @@ def review_answer(request, question):
     if question_type == 'ExtendedAnswer':
         return render(request, 'extended_review.html', context)
     else:
+        correct_choice = question_object.choices[question_object.correct_choice]
+        context['correct_choice'] = correct_choice
         return render(request, 'multi_choice_review.html', context)

@@ -177,8 +177,15 @@
                         {% endfor %}
                     </div>
 
-                    <p>Your choice: {{ response.selected_choice }}</p>
-                    <p>Correct Choice: {{ question.correct_choice }}</p>
+                    <p>Your choice: {% if response.selected_choice == -1 %}
+                                        No Choice
+                                    {% else %}
+                                        {{ response.selected_choice }}
+                                    {% endif %}
+                    </p>
+
+                    <p>Correct Choice: {{ correct_choice }}</p>
+
                 </div>
                 <div class="col-12">
                     <div class="d-flex justify-content-center">
