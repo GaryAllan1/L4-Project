@@ -4,31 +4,54 @@
 {% block body_block %}
 
 <style>
-    form, h2{
-        text-align: center;
-    }
-    h2{
-        margin-bottom: 20px;
-        margin-top: 20px;
-    }
+    body {
+		background-color: #f8f9fa; /* Optional: Change the background color */
+	  }
+	  .row {
+		display: flex;
+		justify-content: center;
+	  }
+	  .form-container {
+		background-color: #ffffff; /* Optional: Change the form container background color */
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		max-width: 500px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	
+	  }
+	  .form-group {
+		margin-bottom: 20px;
+	  }
+	  input.form-control {
+		border-radius: 18px;
+	  }
 </style>
 
-<h2>Log In</h2>
- <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }} <br>
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Log In</button>
-  </form>
+<div class="container mt-5">
+	<div class="row">
+		<div class="form-container">
+			<h2 class="mb-4">Login</h2>
+			<form method="post">
+				{% csrf_token %}
+				{% for field in form %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+						{{ field }}
+						<br>
+						{% for error in field.errors %}
+							<small class="form-text text-danger">{{ error }}</small><br>
+						{% endfor %}
+					</div>
+				{% endfor %}
+				<button type="submit" class="btn btn-success">Login</button>
+
+			</form>
+		</div>
+	</div>
+</div>
 
 {% endblock %}
