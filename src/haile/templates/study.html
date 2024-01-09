@@ -43,7 +43,7 @@
     <form action="{% url 'study' %}" method="post">
         {% csrf_token %}
         <div class="confirm-button">
-            <input type="submit" value="I confirm that I have studied and am ready to take the quiz" class="btn btn-success">
+            <input type="submit" value="I confirm that I have studied and am ready to take the quiz" class="cnfm-stdy btn btn-success">
         </div>
     </form>
 </div>
@@ -54,6 +54,10 @@
 
 
 <style>
+
+    .cnfm-stdy {
+        background-color: #3e4ab8;
+    }
     .confirm-button{
         display: flex;
         justify-content: center;
