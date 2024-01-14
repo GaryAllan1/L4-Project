@@ -340,5 +340,7 @@ def review_answer(request, question):
         return render(request, 'extended_review.html', context)
     else:
         correct_choice = question_object.choices[question_object.correct_choice]
+        selected_choice = question_object.choices[response_object.selected_choice]
         context['correct_choice'] = correct_choice
+        context['selected_choice'] = selected_choice
         return render(request, 'multi_choice_review.html', context)

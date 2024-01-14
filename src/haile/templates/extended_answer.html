@@ -4,11 +4,24 @@
 {% block body_block %}
 
     <style>
+        
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
         .quiz-container {
             text-align: center;
             margin: 30px auto;
             background: white;
             padding: 20px 15px;
+            float: left;
+            width: 60%;
+        }
+
+        .chat-bot {
+            float: left;
+            width: 40%;
         }
 
         h1 {
@@ -81,11 +94,7 @@
 			background-color: #fff;
 		}
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
+        
     
         .study-container,
         .chat-bot-container {

@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% load static %}
 
 {% block body_block %}
 
     <style>
+        
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
         .quiz-container {
             text-align: center;
             margin: 30px auto;
             background: white;
             padding: 20px 15px;
+            float: left;
+            width: 60%;
+        }
+
+        .chat-bot {
+            float: left;
+            width: 40%;
         }
 
         h1 {
@@ -81,11 +95,7 @@
 			background-color: #fff;
 		}
         
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
+        
     
         .study-container,
         .chat-bot-container {
@@ -164,6 +174,9 @@
             <div class="row">
                 <div class="col-12">
                     <p class="fw-bold">{{ question_number }}. {{ question.question_text }}</p>
+                    {% if question.image  %}
+                        <img src="{% static 'images/' %}{{ question.image }}" alt="Question Image">
+                    {% endif %}
                     <div>
                         {% csrf_token %}
                         {% for choice in question.choices %}
@@ -180,7 +193,7 @@
                     <p>Your choice: {% if response.selected_choice == -1 %}
                                         No Choice
                                     {% else %}
-                                        {{ response.selected_choice }}
+                                        {{ selected_choice }}
                                     {% endif %}
                     </p>
 
