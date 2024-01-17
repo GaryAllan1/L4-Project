@@ -1,0 +1,17 @@
+15.01.24
+
+Time: 12:00
+Who was present: Gary Allan and Mireilla Bikanga Ada
+
+Progress made over christmas break:
+Lots of bug fixes and general site improvements. Site is ready to deploy as is
+Made some questions for the quiz, needed a second opinion on the quality/difficulty
+
+Issues discussed in meeting:
+Discussed the plan for the remainder of the project, specifically regarding the evaluation and how the research section of the project is going to take place
+
+I need to start writing the diss soon!
+
+Objectives for coming week:
+Finish the quiz questions
+Deploy the project online
