@@ -34,7 +34,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ['46.101.85.80',
-                 '127.0.0.1']
+                 '127.0.0.1',
+                 'haileapp.eu.pythonanywhere.com']
 
 
 # Application definition
