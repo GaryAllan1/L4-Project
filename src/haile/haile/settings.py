@@ -14,7 +14,13 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+#STATICFILES_DIRS = [STATIC_DIR, ]
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,20 +33,6 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-#STATICFILES_DIRS = [STATIC_DIR, ]
-STATIC_URL = "/static/"
-    
-if not DEBUG:
-    STATIC_ROOT = ''
-    
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
-]
 
 ALLOWED_HOSTS = ['46.101.85.80',
                  '127.0.0.1',
