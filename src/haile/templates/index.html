@@ -9,17 +9,17 @@
 {% endif%}
 <p class="intro-para">
     HAILE is the Hub for Advancements in Learning and Education.
-    There are 2 main areas of the site to draw your attention to: Study area and the Quiz are.
-    The study area is were you should go t oprepare, prior to taking the quiz, in the quiz area.
+    There are 2 main areas of the site to draw your attention to: the Study Area and the Quiz area.
+    The study area is where you should go to prepare yourself prior to taking the quiz, in the quiz area.
 </p>
 {% if not user.first_name %}
-    <p class="signup-warning-text">Please note you will have to sign up before studying or doing the quiz</p>
+    <p class="signup-warning-text">You will have to sign up before studying or doing the quiz</p>
     <a class="signup-link" href="{% url 'signup' %}">Sign up</a>
 {% endif %}
 <div class="block-container">
     <div class="study-area-block">
         <h4>Study Area</h4>
-        <p> Here you can prepare for the quiz beforehand, it will contain the content in the areas tat the quiz will cover</p>
+        <p> Here you can prepare for the quiz beforehand, it will contain useful links to the content in the areas that the quiz will cover</p>
         {% if user.first_name %}
         <a href="{% url 'study' %}">Go To Study Area</a>
         {% endif %}
@@ -27,8 +27,7 @@
     <div class="quiz-area-block">
         <h4>Quiz</h4>
         <p>
-            The quiz is the main focus of the website, here you will be presented with 10 questions, some multiple choice, some 
-            written/explanation answers and some where you'll have to submit short code snippets
+            The quiz is the main focus of the website, here you will be presented with 10 questions, broken down into 8 multiple choice and 2 extended answer questions where you should write a short sentence or two for your answer.
         </p>
         {% if user.first_name %}
         <a href="{% url 'quiz_intro' %}">Go To Quiz</a>
@@ -49,6 +48,7 @@
     .intro-para {
         text-align: center;
         margin-top: 20px;
+        padding:20px;
     } 
 
     .block-container {

@@ -301,7 +301,6 @@ def calculate_cosine_similarity(answer1, answer2):
 
     return similarity
 
-
 def review(request):
 
     # calculate the users final score
