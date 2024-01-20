@@ -122,9 +122,6 @@ def signup(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        print()
-        print()
-        print(request)
         return render(request, 'profile.html', {'user': request.user})
     else:
         return redirect('index')
@@ -156,14 +153,15 @@ def user_login(request):
 def quiz(request, question):
 
     question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
-                     4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
+                     4: [4, 'MultipleChoice'], 5: [5, 'MultipleChoice'], 6: [6, 'MultipleChoice'],
+                     7: [7, 'MultipleChoice'], 8: [8, 'MultipleChoice'], 9: [1, 'ExtendedAnswer'],
+                     10: [2, 'ExtendedAnswer']}
     
 
     question_type_number, question_type = question_dict[int(question)]
     question_object = get_question(question_type_number, question_type)
     if question_type == 'MultipleChoice':
         if request.method == 'POST':
-            print(request.POST)
             if request.POST.get('chat') == 'true':
                 # chat-bot functionality here
                 form = ChatPromptForm(request.POST)
@@ -217,7 +215,6 @@ def quiz(request, question):
     
     else: # question type is extended answer
         if request.method == 'POST':
-            print(request.POST)
             if request.POST.get('chat') == 'true':
                 # chat-bot functionality here
                 form = ChatPromptForm(request.POST)
@@ -241,7 +238,6 @@ def quiz(request, question):
             correct_answer = question_object.correct_answer
             user_answer = request.POST.get('userResponse')
             similarity = calculate_cosine_similarity(correct_answer, user_answer)
-            print(f"SIMILARITY: {similarity}")
             if similarity >= 0.45:
                 is_correct = True
             else:
@@ -323,14 +319,15 @@ def review(request):
 def review_answer(request, question):
     user = HaileUser.objects.filter(user=request.user)[0]
     question_dict = {1: [1, 'MultipleChoice'], 2: [2, 'MultipleChoice'], 3: [3, 'MultipleChoice'],
-                     4: [1, 'ExtendedAnswer'], 5: [2, 'ExtendedAnswer'], 6: [3, 'ExtendedAnswer']}
+                     4: [4, 'MultipleChoice'], 5: [5, 'MultipleChoice'], 6: [6, 'MultipleChoice'],
+                     7: [7, 'MultipleChoice'], 8: [8, 'MultipleChoice'], 9: [1, 'ExtendedAnswer'],
+                     10: [2, 'ExtendedAnswer']}
     
 
     question_type_number, question_type = question_dict[int(question)]
     question_object = get_question(question_type_number, question_type)
     if question_type == 'MultipleChoice':
         response_object = MultipleChoiceResponse.objects.filter(user=user, question=question_object)[0]
-        print(response_object.selected_choice)
     elif question_type == 'ExtendedAnswer':
         response_object = ExtendedAnswerResponse.objects.filter(user=user, question=question_object)[0]
 

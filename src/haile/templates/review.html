@@ -5,11 +5,13 @@
 <div class="container">
     <div class="study-container mt-5">
         <h2>Review Answers</h2>
-        <p>the quiz is done well done your score is {{ final_score }}/6</p>
+        <p>the quiz is done well done your score is {{ final_score }}/10</p>
 
         <ul>
-            {% for question_number in "123456" %}
-                <li><a href="{% url 'review_answer' question_number %}">{{ question_number }}</a></li>
+            {% for question_number in "0123456789" %}
+                {% with question_number|add:1 as actual_number %}
+                    <li><a href="{% url 'review_answer' actual_number %}">{{ actual_number }}</a></li>
+                {% endwith %}
             {% endfor %}
         </ul>
     </div>

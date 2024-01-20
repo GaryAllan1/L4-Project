@@ -164,7 +164,13 @@
             <div class="row">
                 <div class="col-12">
                     <p class="fw-bold">{{ question_number }}. {{ question.question_text }}</p>
-                    <p>Your Answer: {{ response.user_response }}</p>
+                    <p>Your Answer: {{ response.user_response }}</p> <br>
+
+                    {% if response.is_correct == True %}
+                        <p>Congratulations, that is correct!</p>
+                    {% else %}
+                        <p>Unfortunately that is not correct</p>
+                    {% endif %} <br>
                     <p>Correct Answer: {{ question.correct_answer }}</p>
                 </div>
                 <div class="col-12">
