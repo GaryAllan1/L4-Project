@@ -3,9 +3,27 @@ from django.contrib.auth.models import User
 
 
 class HaileUser(models.Model):
+    GENDER_CHOICES = [
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('non_binary', 'Non-Binary'),
+        ('other', 'Other/Prefer Not to Say'),
+    ]
+
+    LEVEL_CHOICES = [
+        (1, 'Level 1'),
+        (2, 'Level 2'),
+        (3, 'Level 3'),
+        (4, 'Level 4'),
+        ('FR1', 'Faster Route Level 1'),
+        ('FR2', 'Faster Route Level 2'),
+        ('FR3', 'Faster Route Level 3'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     final_score = models.IntegerField(default=0)
     has_studied = models.BooleanField(default=False)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, null=True, blank=True)
+    current_level_of_study = models.CharField(max_length=10, choices=LEVEL_CHOICES, null=True, blank=True)
 
 class ChatPrompt(models.Model):
     prompt_id = models.AutoField(primary_key=True)

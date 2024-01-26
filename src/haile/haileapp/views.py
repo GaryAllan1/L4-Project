@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
-from .forms import SignUpForm, LoginForm, ChatPromptForm, HasStudiedForm
+from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import IntegrityError
@@ -97,6 +97,7 @@ def signup(request):
         return HttpResponseRedirect(reverse('profile'))
 
     if request.method == 'POST':
+        print(request.POST)
         form = SignUpForm(request.POST)
         if form.is_valid():
             #try:
@@ -106,7 +107,9 @@ def signup(request):
             user.save()
             raw_password = form.cleaned_data.get('password1')
 
-            HaileUser.objects.create(user=user)
+            gender = request.POST.get('gender')
+            level = request.POST.get('current_level_of_study')
+            HaileUser.objects.create(user=user, gender=gender, current_level_of_study=level)
 
             # login user after signing up
             user = authenticate(username=user.username, password=raw_password)
@@ -117,7 +120,8 @@ def signup(request):
 
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+        form_haile_user = SignUpHaileUserForm()
+    return render(request, 'signup.html', {'form': form, 'haile_form': form_haile_user, 'password_fields': ('password1', 'password2')})
 
 
 def profile(request):

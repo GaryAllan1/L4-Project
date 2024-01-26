@@ -8,6 +8,12 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('first_name', 'username', 'password1', 'password2')
 
+class SignUpHaileUserForm(forms.ModelForm):
+
+    class Meta:
+        model = HaileUser
+        fields = ('gender', 'current_level_of_study')
+
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
